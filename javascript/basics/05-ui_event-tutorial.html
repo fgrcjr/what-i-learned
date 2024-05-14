@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventListener</title>
+</head>
+<body>
+    <button id="test">Hover to Change Background Color</button>
+
+    <script>
+        const test = document.querySelector("#test");
+
+        test.addEventListener("mouseover", setDark);
+        test.addEventListener("mouseout", setLight);
+
+        function setDark(){
+            document.body.style.background = "black";
+            test.style.color = "purple";
+        }
+
+        function setLight(){
+            document.body.style.background = "white";
+            test.style.color = "black";
+        }
+    </script>
+</body>
+</html>
