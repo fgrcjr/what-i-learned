@@ -1,5 +1,5 @@
 <h1 align="left">Hi 👋, I'm Ferdinand</h1>
-<h3 align="left">Software but wanting to become a full stack web developer</h3>
+<h3 align="left">Software Tester but wanting to become a full stack web developer</h3>
 
 - 🔭 I’m currently working on **learning software development**
 
