@@ -1,4 +1,7 @@
 import express from 'express'
+import { query, validationResult, body, matchedData, checkSchema } from 'express-validator'
+import { createUserValidationSchema } from './utils/validationSchemas.mjs'
+import { getUsers } from './utils/validationSchemas.mjs'
 
 const app = express()
 
@@ -42,32 +45,40 @@ const sampleUsers = [
 // Use '/api/{}'
 // to get status "response.status(200)"
 app.get('/', 
-
-(request, response,next) => {
-    console.log("test 1")
-    next()
-},
-(request, response,next) => {
-    console.log("test 2")
-    next()
-}
-
-, (request, response) => {
+    (request, response,next) => {
+        console.log("test 1")
+        next()
+    },
+    (request, response,next) => {
+        console.log("test 2")
+        next()
+    }, 
+    (request, response) => {
     return response.status(201).send({ msg: "Hello"})
-})
+    }
+)
 
-app.get('/api/users', (request, response) => {
-    // Query Params
-    // sample_1: ?key=value&key2=value2
-    // sample_2: //localhost:3000/api/users?filter=username&value=test
+// Query Params
+// sample_1: ?key=value&key2=value2
+// sample_2: //localhost:3000/api/users?filter=username&value=test
+// Use of express-validator, act as middleware
+app.get('/api/users', checkSchema(getUsers), (request, response) => {
+
     console.log(request.query)
     response.status(200)
+
+    const result = validationResult(request)
+    console.log(result)
+
+    const test = matchedData(request)
+    console.log(test)
 
     // de-structure the query
     const { 
         query: { filter, value },
     } = request
 
+    
     if(filter && value)
         return response.send(
             sampleUsers.filter((user) => user[filter].includes(value))
@@ -78,11 +89,17 @@ app.get('/api/users', (request, response) => {
 })
 
 // POST Requests
-app.post('/api/users', (request, response) => {
+app.post('/api/users', checkSchema(createUserValidationSchema), (request, response) => {
     console.log(request.body)
-    // de-structure the body from request
-    const { body } = request
-    const newUser = { id: sampleUsers[sampleUsers.length - 1].id + 1, ...body}
+
+    const result = validationResult(request)
+    console.log(result)
+
+    if (!result.isEmpty())
+        return response.status(400).send({ errors: result.array() })
+
+    const data = matchedData(request)
+    const newUser = { id: sampleUsers[sampleUsers.length - 1].id + 1, ...data}
     sampleUsers.push(newUser)
     return response.status(201).send(newUser)
 })
