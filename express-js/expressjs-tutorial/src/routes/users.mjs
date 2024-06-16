@@ -14,7 +14,15 @@ router.get('/api/users',
         .withMessage("Must not be empty")
         .isLength({ min: 3, max: 32})
         .withMessage("Must be at least 3-32 characters")
-    , (request, response) => {
+    , (request, response) => { 
+        console.log(request.session.id)  
+        request.sessionStore.get(request.session.id, (err, sessionData) => {
+            if(err){
+                console.log(err)
+                throw(err)
+            }
+            console.log(sessionData)
+        })
         const result = validationResult(request)
         console.log(result)
         
@@ -43,8 +51,8 @@ router.get('/api/users/:id', resolveIndexByUserId, (request, response) => {
 
 
 router.post('/api/users', checkSchema(createUserValidationSchema), (request, response) => {
-        console.log(request.body)
-    
+    console.log(request.body)
+        console.log(request.session)
         const result = validationResult(request)
         console.log(result)
     
