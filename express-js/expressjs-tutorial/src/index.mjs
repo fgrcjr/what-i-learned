@@ -44,6 +44,35 @@ app.post('/api/auth', (request, response) => {
     return response.status(200).send(findUser)
 })
 
+app.get('/api/auth/status', (request, response) => {
+    request.sessionStore.get(request.sessionID, (err, session) => {
+        console.log(session)
+    })
+    return request.session.user 
+    ? response.status(200).send(request.session.user)
+    : response.status(401).send({ msg: "Not Authenticated" })
+})
+
+app.post('/api/cart', (request, response) => {
+    if(!request.session.user) return response.sendStatus(401)
+    const { body: item } = request
+    const { cart } = request.session
+    if(cart){
+        cart.push(item)
+    } 
+    else{
+        request.session.cart = [item]
+    }
+
+    return response.status(201).send(item)
+})
+
+app.get('/api/cart', (request, response) => {
+    if(!request.session.user) return response.sendStatus(401)
+    return response.send(request.session.cart ?? [])
+})
+
+
 // Listen for a PORT
 app.listen(PORT, () => {
     console.log(`Running on Port ${PORT}`)
