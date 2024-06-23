@@ -2,7 +2,8 @@ import express from 'express'
 import routes from './routes/index.mjs'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
-import { sampleUsers } from './utils/constants.mjs'
+import passport from 'passport'
+import "./strategies/local-strategy.mjs"
 
 const app = express()
 
@@ -17,60 +18,34 @@ app.use(session({
         maxAge: 60000 * 60
     }
 }))
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use(routes)
 
 
-// Assuming that env has a port else use 3000
-const PORT = process.env.PORT || 3000
-
-// GET Requests
-// Use '/api/{}'
-// to get status "response.status(200)"
-app.get('/', (request, response) => {
-    console.log(request.session)
-    console.log(request.session.id)
-    request.session.visited = true
-    response.cookie('hello', 'world', { maxAge: 60000 })
-    return response.status(201).send({ msg: "Hello"})
-    }
-)
-
-app.post('/api/auth', (request, response) => {
-    const { body: { username, password } } = request
-    const findUser = sampleUsers.find((user) => user.username === username)
-    if(!findUser || findUser.password !== password) 
-        return response.status(401).send({ msg: "Invalid Credentials" }) 
-    request.session.user = findUser
-    return response.status(200).send(findUser)
-})
+app.post('/api/auth', passport.authenticate('local'), (request, response) => {
+    response.sendStatus(200)
+}) 
 
 app.get('/api/auth/status', (request, response) => {
-    request.sessionStore.get(request.sessionID, (err, session) => {
-        console.log(session)
-    })
-    return request.session.user 
-    ? response.status(200).send(request.session.user)
-    : response.status(401).send({ msg: "Not Authenticated" })
+    console.log(`Inside /auth/status endpoint`)
+    console.log(request.user)
+
+    return request.user ? response.send(request.user) : response.sendStatus(401)
 })
 
-app.post('/api/cart', (request, response) => {
-    if(!request.session.user) return response.sendStatus(401)
-    const { body: item } = request
-    const { cart } = request.session
-    if(cart){
-        cart.push(item)
-    } 
-    else{
-        request.session.cart = [item]
-    }
+app.post('/api/auth/logout', (request, response) => {
+    if(!request.user) return response.sendStatus(401)
 
-    return response.status(201).send(item)
+    request.logout((err) => {
+        if(err) return response.sendStatus(400)
+        response.send(200)
+    })    
 })
 
-app.get('/api/cart', (request, response) => {
-    if(!request.session.user) return response.sendStatus(401)
-    return response.send(request.session.cart ?? [])
-})
+// Assuming that env has a port else use 3000
+const PORT = process.env.PORT || 3000
 
 
 // Listen for a PORT
