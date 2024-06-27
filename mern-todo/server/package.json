@@ -16,5 +16,8 @@
     "express": "^4.19.2",
     "mongodb": "^6.7.0",
     "nodemon": "^3.1.4"
+  },
+  "devDependencies": {
+    "prettier": "3.3.2"
   }
 }
