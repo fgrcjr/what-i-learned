@@ -1,0 +1,85 @@
+/* CSS RESET */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  
+  * {
+    margin: 0;
+  }
+
+  
+  body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+ 
+  
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  
+  input, button, textarea, select {
+    font: inherit;
+  }
+
+  
+  p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+  }
+
+  /* container */
+  .container{
+    max-width:1200px;
+    margin: 0 auto;
+  }
+
+  /* todos list */
+  .title{
+    text-align: center;
+  }
+
+  .todos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .todo{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+
+    background-color: rgba(0,0,0,0.1);
+    width: 50%;
+    font-size: 1.5rem;
+  }
+
+  .todo_status{
+    border: none;
+    padding: 0;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover{
+        transform: scale(1.1);
+    }
+  }
+  
+  /* form */
+  .form{
+    display:flex;
+    gap: 0.5rem;
+    width: 50%;
+    margin: 1rem auto;
+  }
+
+  .form_input{
+    flex: 1;
+    padding: 0.25rem 0.5rem;
+  }
