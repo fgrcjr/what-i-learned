@@ -4,6 +4,7 @@ import { createUserValidationSchema } from '../utils/validationSchemas.mjs'
 import { sampleUsers } from '../utils/constants.mjs'
 import { resolveIndexByUserId } from '../utils/middlewares.mjs'
 import { User } from '../mongoose/schemas/user.mjs'
+import { hashPassword } from '../utils/helpers.mjs'
 
 const router = Router()
 
@@ -54,6 +55,10 @@ router.post('/api/users', checkSchema(createUserValidationSchema), async (reques
     if (!result.isEmpty()) return response.status(400).send(result.array())
     
     const data = matchedData(request)
+
+    console.log('before', data)
+    data.password = hashPassword(data.password)
+    console.log('after', data)
 
     const newUser = new User(data)
     try{
