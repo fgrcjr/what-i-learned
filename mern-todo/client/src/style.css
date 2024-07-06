@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
 /* CSS RESET */
 
 *, *::before, *::after {
@@ -31,6 +33,16 @@
     overflow-wrap: break-word;
   }
 
+  /* App */
+  body{
+    background-color: #37a87f;
+    background-image: url("https://www.transparenttextures.com/patterns/notebook.png");
+    
+    color:  #19221e;
+    font-family: "Roboto Mono", monospace;
+
+  }
+
   /* container */
   .container{
     max-width:1200px;
@@ -40,6 +52,8 @@
   /* todos list */
   .title{
     text-align: center;
+    font-size: 3rem;
+    padding: 3rem 0 1rem;
   }
 
   .todos{
@@ -52,22 +66,35 @@
   .todo{
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 1rem;
-
-    background-color: rgba(0,0,0,0.1);
+    padding: 1rem 1rem;
+    background-color: rgba(255,255,255,0.1);
     width: 50%;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 1rem;
+    transition: all 0.2s;
+
+    &:hover{
+      background-color: rgba(255,255,255,0.2);
+    }
   }
 
-  .todo_status{
+  .mutations{
+    display: flex;
+    gap: 1rem;
+  }
+
+  .todo_status,
+  .todo_delete{
     border: none;
     padding: 0;
     line-height: 1;
     cursor: pointer;
     transition: all 0.2s;
-
+    background: none;
+    color: #19221e;
     &:hover{
-        transform: scale(1.1);
+        transform: scale(1.15);
     }
   }
   
@@ -81,5 +108,53 @@
 
   .form_input{
     flex: 1;
-    padding: 0.25rem 0.5rem;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.25rem;
+    border: none;
+    outline: none;
+
+    &:focus,
+    &:hover{
+      background-color: rgba(255,255,255,0.75);
+    }
   }
+
+  .form_btn{
+    padding: 10px 35px;
+    border-radius: 10px;
+    border: 0;
+    background-color: #1a1306;
+    letter-spacing: 1.5px;
+    font-size: 15px;
+    font: inherit;
+    transition: all 0.3s ease;
+    box-shadow: #574e33 0px 5px 0px 0px;
+    color: hsl(0, 0%, 100%);
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: #574e33 0px 5px 0px 0px;
+    }
+
+    &:active {
+      background-color: #574e33;
+      box-shadow: #2e2a21 0px 0px 0px 0px;
+      transform: translateY(4px);
+      transition: 200ms;
+    }
+  }
+    
+@media (max-width: 420px){
+  .title{
+    font-size: 2.5rem;
+  }
+
+  .form{
+    width: 95%;
+  }
+
+  .todo{
+    width: 80%;
+    font-size: 1.1rem;
+  }
+}

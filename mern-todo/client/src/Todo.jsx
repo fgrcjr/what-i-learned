@@ -1,3 +1,7 @@
+import { GoTrash } from "react-icons/go";
+import { GoCheckCircle } from "react-icons/go";
+import { GoCheckCircleFill } from "react-icons/go";
+
 export default function Todo(props){
     
     const { todo, setTodos } = props
@@ -42,18 +46,18 @@ export default function Todo(props){
     return(
         <div className="todo">
             <p>{todo.todo}</p>
-            <div>
+            <div className="mutations">
                 <button 
                     className="todo_status"
                     onClick={() => updateTodo(todo._id, todo.status)}
                 >
-                    {(todo.status) ? "ok" : "no"}
+                    {(todo.status) ? <GoCheckCircle /> : <GoCheckCircleFill />}
                 </button>
                 <button
                     className="todo_delete"
                     onClick={() => deleteTodo(todo._id)}
                 >
-                    ✖ 
+                    <GoTrash /> 
                 </button>
             </div>
         </div>
