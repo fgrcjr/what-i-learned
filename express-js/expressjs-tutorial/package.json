@@ -20,6 +20,7 @@
     "express-validator": "^7.0.1",
     "mongoose": "^8.4.3",
     "passport": "^0.7.0",
+    "passport-discord": "^0.1.4",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
