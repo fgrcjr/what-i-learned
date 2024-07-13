@@ -5,7 +5,8 @@ import session from 'express-session'
 import passport from 'passport'
 import mongoose from 'mongoose'
 import MongoStore from 'connect-mongo'
-// import "./strategies/local-strategy.mjs"
+import "./strategies/discord-strategy.mjs"
+//  import "./strategies/local-strategy.mjs"
 
 const app = express()
 
@@ -52,6 +53,11 @@ app.post('/api/auth/logout', (request, response) => {
         if(err) return response.sendStatus(400)
         response.send(200)
     })    
+})
+
+app.get('/api/auth/discord', passport.authenticate("discord"))
+app.get('/api/auth/discord/redirect', passport.authenticate("discord"), (request, response) =>{
+    response.sendStatus(200)
 })
 
 // Assuming that env has a port else use 3000
