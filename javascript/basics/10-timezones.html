@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Formatter</title>
+</head>
+<body>
+    <h2>Enter a Date</h2>
+    <input type="date" id="dateInput">
+    <button onclick="formatDate()">Format Date</button>
+    <p id="defaultDateString"></p>
+    <p id="localeDateString"></p>
+    <p id="localeString"></p>
+    <p id="timeDifference"></p>
+
+    <script>
+        function formatDate() {
+            const dateInput = document.getElementById('dateInput').value;
+            if (!dateInput) {
+                alert('Please enter a date.');
+                return;
+            }
+
+            const date = new Date(dateInput);
+            const options = { timeZone: 'Asia/Singapore' };
+
+            const defaultDateString = date.toLocaleDateString();
+            const localeDateString = date.toLocaleDateString('en-US', options);
+            const localeString = date.toLocaleString('en-US', options);
+
+            document.getElementById('defaultDateString').innerText = `Default toLocaleDateString: ${defaultDateString}`;
+            document.getElementById('localeDateString').innerText = `Asia/Singapore toLocaleDateString: ${localeDateString}`;
+            document.getElementById('localeString').innerText = `Asia/Singapore toLocaleString: ${localeString}`;
+
+            // Calculate the time difference
+            const localTime = new Date(dateInput).getTime();
+            const singaporeTime = new Date(date.toLocaleString('en-US', options)).getTime();
+            const timeDifference = (singaporeTime - localTime) / (1000 * 60 * 60); // Difference in hours
+
+            document.getElementById('timeDifference').innerText = `Time Difference: ${timeDifference} hours`;
+        }
+    </script>
+</body>
+</html>
