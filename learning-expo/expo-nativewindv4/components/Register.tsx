@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, Alert, Switch, TouchableOpacity, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from 'react-native-ui-datepicker';
-import { Picker } from '@react-native-picker/picker';
 import dayjs from 'dayjs';
+
+import Dropdown from './Dropdown';
 
 interface FormData {
   amount: string;       // String input to handle float, will convert later
@@ -16,7 +17,7 @@ interface FormData {
 const Register: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     amount: '',
-    category: '0',
+    category: '',
     description: '',
     income: false,
     date: dayjs(),
@@ -41,34 +42,36 @@ const Register: React.FC = () => {
     );
   };
 
+  const categories = [
+    { label: 'Food', value: 'Food' },
+    { label: 'Transport', value: 'Transport' },
+    { label: 'Entertainment', value: 'Entertainment' },
+    { label: 'Bills', value: 'Bills' },
+    { label: 'Shopping', value: 'Shopping' },
+    { label: 'Other', value: 'Other' },
+  ];
+
   return (
     <SafeAreaView className="px-5"> 
       <Text className="text-3xl font-extrabold mb-10 text-center">Finance App</Text>
 
       <TextInput
-        className="h-15 border border-gray-300 mb-4 p-2 rounded"
+        className="h-14 border border-gray-300 mb-4 p-2 rounded"
         placeholder="Amount (float)"
         keyboardType="decimal-pad"
         value={formData.amount}
         onChangeText={(value) => handleInputChange('amount', value)}
       />
 
-      <Picker
+      <Dropdown
+        options={categories}
         selectedValue={formData.category}
-        onValueChange={(itemValue) => handleInputChange('category', itemValue)}
-        className="h-15 mb-4" // Adjust height as needed
-      >
-        <Picker.Item label="Select Category" value="0" />
-        <Picker.Item label="Food" value="Food" />
-        <Picker.Item label="Transport" value="Transport" />
-        <Picker.Item label="Entertainment" value="Entertainment" />
-        <Picker.Item label="Bills" value="Bills" />
-        <Picker.Item label="Shopping" value="Shopping" />
-        <Picker.Item label="Other" value="Other" />
-      </Picker>
+        onValueChange={(value) => handleInputChange('category', value)}
+        placeholder="Select Category"
+      />
 
       <TextInput
-        className="h-16 border border-gray-300 mb-4 p-2 rounded"
+        className="h-14 border border-gray-300 mb-4 p-2 rounded"
         placeholder="Description"
         value={formData.description}
         onChangeText={(value) => handleInputChange('description', value)}
