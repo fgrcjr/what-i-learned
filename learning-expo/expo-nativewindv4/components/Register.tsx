@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Alert, Switch, TouchableOpacity, Modal } from 'react-native';
+import { View, TextInput, Text, Alert, TouchableOpacity, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
@@ -7,11 +7,11 @@ import dayjs from 'dayjs';
 import Dropdown from './Dropdown';
 
 interface FormData {
-  amount: string;   
+  amount: string;
   category: string;
   description: string;
   income: boolean;
-  date: dayjs.Dayjs; 
+  date: dayjs.Dayjs;
 }
 
 const Register: React.FC = () => {
@@ -26,7 +26,12 @@ const Register: React.FC = () => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   const handleInputChange = (field: keyof FormData, value: string | boolean | dayjs.Dayjs) => {
-    setFormData({ ...formData, [field]: value });
+    if (field === 'income') {
+      // Convert "Yes" to true and "No" to false
+      setFormData({ ...formData, [field]: value === 'Yes' });
+    } else {
+      setFormData({ ...formData, [field]: value });
+    }
   };
 
   const handleSubmit = () => {
@@ -41,11 +46,7 @@ const Register: React.FC = () => {
       `Amount: ${floatAmount}\nCategory: ${formData.category}\nDescription: ${formData.description}\nIncome: ${formData.income ? 'Yes' : 'No'}\nDate: ${formData.date.format('YYYY-MM-DD')}`
     );
 
-    setFormData({ amount: '',
-      category: '',
-      description: '',
-      income: false,
-      date: dayjs(), });
+    setFormData({ amount: '', category: '', description: '', income: false, date: dayjs() });
   };
 
   const categories = [
@@ -57,8 +58,13 @@ const Register: React.FC = () => {
     { label: 'Other', value: 'Other' },
   ];
 
+  const incomeOptions = [
+    { label: 'Yes', value: 'Yes' },
+    { label: 'No', value: 'No' },
+  ];
+
   return (
-    <SafeAreaView className="px-5"> 
+    <SafeAreaView className="px-5">
       <Text className="text-3xl font-extrabold mb-10 text-center">Finance App</Text>
 
       <TextInput
@@ -83,11 +89,13 @@ const Register: React.FC = () => {
         onChangeText={(value) => handleInputChange('description', value)}
       />
 
-      <View className="flex-row justify-between items-center mb-4">
-        <Text className="text-lg">Income</Text>
-        <Switch
-          value={formData.income}
+      <View className="mb-4">
+        <Text className="text-lg mb-2">Income</Text>
+        <Dropdown
+          options={incomeOptions}
+          selectedValue={formData.income ? 'Yes' : 'No'}
           onValueChange={(value) => handleInputChange('income', value)}
+          placeholder="Select Income"
         />
       </View>
 
@@ -106,7 +114,6 @@ const Register: React.FC = () => {
       >
         <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
           <View className="w-96 bg-white rounded p-7 items-center">
-
             <DateTimePicker
               mode="single"
               date={formData.date.toDate()}
@@ -115,7 +122,6 @@ const Register: React.FC = () => {
                 setIsDatePickerVisible(false);
               }}
             />
-
             <TouchableOpacity
               onPress={() => setIsDatePickerVisible(false)}
               className="bg-red-500 p-2 rounded mt-4 items-center"
