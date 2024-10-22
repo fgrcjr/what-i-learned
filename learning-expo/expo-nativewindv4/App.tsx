@@ -1,21 +1,15 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import Register from './components/Register';
+
+import './global.css'
 
 const App: React.FC = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 justify-center px-10">
       <Register />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-  },
-});
 
 export default App;

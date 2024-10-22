@@ -1,73 +1,62 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Alert, Switch, StyleSheet, TouchableOpacity, Modal } from 'react-native';
-import DateTimePicker from 'react-native-ui-datepicker';  // Import the DateTimePicker
-import { Picker } from '@react-native-picker/picker';  // Import the Picker component
-import dayjs from 'dayjs';  // Import dayjs for date handling
+import { View, TextInput, Text, Alert, Switch, TouchableOpacity, Modal } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import DateTimePicker from 'react-native-ui-datepicker';
+import { Picker } from '@react-native-picker/picker';
+import dayjs from 'dayjs';
 
 interface FormData {
   amount: string;       // String input to handle float, will convert later
   category: string;
   description: string;
   income: boolean;
-  date: dayjs.Dayjs;    // Use dayjs for Date handling
+  date: dayjs.Dayjs;   // Use dayjs for Date handling
 }
 
 const Register: React.FC = () => {
-  // Initialize the form data with dayjs for date
   const [formData, setFormData] = useState<FormData>({
     amount: '',
-    category: '0',    
+    category: '0',
     description: '',
     income: false,
-    date: dayjs(),       // Use dayjs to initialize the date
+    date: dayjs(),
   });
 
-  // State to control DateTimePicker modal visibility
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
-  // Handle input changes
   const handleInputChange = (field: keyof FormData, value: string | boolean | dayjs.Dayjs) => {
     setFormData({ ...formData, [field]: value });
   };
 
-  // Handle form submission
   const handleSubmit = () => {
-    // Validate amount is a valid float
     const floatAmount = parseFloat(formData.amount);
     if (isNaN(floatAmount)) {
       Alert.alert('Error', 'Please enter a valid float number for Amount.');
       return;
     }
 
-    // Show success message and form data
     Alert.alert(
       'Success',
       `Amount: ${floatAmount}\nCategory: ${formData.category}\nDescription: ${formData.description}\nIncome: ${formData.income ? 'Yes' : 'No'}\nDate: ${formData.date.format('YYYY-MM-DD')}`
     );
-
-    // Here, you would typically send the form data to a server or handle it accordingly
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Registration Form</Text>
+    <SafeAreaView className="px-5"> 
+      <Text className="text-3xl font-extrabold mb-10 text-center">Finance App</Text>
 
-      {/* Amount Input */}
       <TextInput
-        style={styles.input}
+        className="h-15 border border-gray-300 mb-4 p-2 rounded"
         placeholder="Amount (float)"
         keyboardType="decimal-pad"
         value={formData.amount}
         onChangeText={(value) => handleInputChange('amount', value)}
       />
 
-      {/* Category Picker */}
-      {/* <Text style={styles.label}>Category</Text> */}
       <Picker
         selectedValue={formData.category}
         onValueChange={(itemValue) => handleInputChange('category', itemValue)}
-        style={styles.picker}
-        
+        className="h-15 mb-4" // Adjust height as needed
       >
         <Picker.Item label="Select Category" value="0" />
         <Picker.Item label="Food" value="Food" />
@@ -78,160 +67,63 @@ const Register: React.FC = () => {
         <Picker.Item label="Other" value="Other" />
       </Picker>
 
-      {/* Description Input */}
       <TextInput
-        style={styles.input}
+        className="h-16 border border-gray-300 mb-4 p-2 rounded"
         placeholder="Description"
         value={formData.description}
         onChangeText={(value) => handleInputChange('description', value)}
       />
 
-      {/* Income Switch */}
-      <View style={styles.switchContainer}>
-        <Text style={styles.label}>Income</Text>
+      <View className="flex-row justify-between items-center mb-4">
+        <Text className="text-lg">Income</Text>
         <Switch
           value={formData.income}
           onValueChange={(value) => handleInputChange('income', value)}
         />
       </View>
 
-      {/* Button to Launch Date Picker */}
-      <TouchableOpacity onPress={() => setIsDatePickerVisible(true)} style={styles.dateButton}>
-        <Text style={styles.dateButtonText}>Select Date</Text>
+      <TouchableOpacity
+        onPress={() => setIsDatePickerVisible(true)}
+        className="bg-blue-500 p-3 rounded mb-4 items-center"
+      >
+        <Text className="text-white text-lg">Select Date</Text>
       </TouchableOpacity>
 
-      {/* Modal for Date Picker */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={isDatePickerVisible}
-        onRequestClose={() => setIsDatePickerVisible(false)}  // Allow closing the modal by pressing back or touching outside
+        onRequestClose={() => setIsDatePickerVisible(false)}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Pick a Date</Text>
+        <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
+          <View className="w-96 bg-white rounded p-7 items-center">
 
             <DateTimePicker
               mode="single"
-              date={formData.date.toDate()}  // Convert dayjs date to native Date object for picker
+              date={formData.date.toDate()}
               onChange={({ date }) => {
                 handleInputChange('date', dayjs(date));
-                setIsDatePickerVisible(false);  // Hide modal after selecting a date
+                setIsDatePickerVisible(false);
               }}
             />
 
-            {/* Button to close modal without selecting a date */}
-            <TouchableOpacity onPress={() => setIsDatePickerVisible(false)} style={styles.modalCloseButton}>
-              <Text style={styles.modalCloseButtonText}>Close</Text>
+            <TouchableOpacity
+              onPress={() => setIsDatePickerVisible(false)}
+              className="bg-red-500 p-2 rounded mt-4 items-center"
+            >
+              <Text className="w-14 text-white text-lg text-center">Close</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
 
-      {/* Submit Button */}
-      <View style={styles.registerButtonContainer}>
-        <TouchableOpacity onPress={handleSubmit} style={styles.registerButton}>
-          <Text style={styles.registerButtonText}>Register</Text>
+      <View className="w-full pb-5">
+        <TouchableOpacity onPress={handleSubmit} className="bg-black py-4 rounded">
+          <Text className="text-white text-lg font-bold text-center">Register</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    flex: 1,
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 15,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  picker: {
-    height: 50,
-    width: '100%',
-    marginBottom: 15,
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  dateButton: {
-    backgroundColor: '#2196F3',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  dateButtonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Semi-transparent background
-  },
-  modalContent: {
-    width: 350,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 20,
-    alignItems: 'center',
-  },
-  modalTitle: {
-    fontSize: 20,
-    marginBottom: 10,
-  },
-  datePicker: {
-    marginBottom: 15,
-  },
-  modalCloseButton: {
-    backgroundColor: '#FF6347',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  modalCloseButtonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  registerButtonContainer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-  },
-  registerButton: {
-    backgroundColor: 'black',
-    paddingVertical: 19,
-    borderRadius: 10,
-    width: '113%',
-    alignItems: 'center',
-  },
-  registerButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
 
 export default Register;
