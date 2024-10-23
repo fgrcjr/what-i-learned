@@ -7,11 +7,11 @@ import dayjs from 'dayjs';
 import Dropdown from './Dropdown';
 
 interface FormData {
-  amount: string;       // String input to handle float, will convert later
+  amount: string;   
   category: string;
   description: string;
   income: boolean;
-  date: dayjs.Dayjs;   // Use dayjs for Date handling
+  date: dayjs.Dayjs; 
 }
 
 const Register: React.FC = () => {
@@ -40,6 +40,12 @@ const Register: React.FC = () => {
       'Success',
       `Amount: ${floatAmount}\nCategory: ${formData.category}\nDescription: ${formData.description}\nIncome: ${formData.income ? 'Yes' : 'No'}\nDate: ${formData.date.format('YYYY-MM-DD')}`
     );
+
+    setFormData({ amount: '',
+      category: '',
+      description: '',
+      income: false,
+      date: dayjs(), });
   };
 
   const categories = [
