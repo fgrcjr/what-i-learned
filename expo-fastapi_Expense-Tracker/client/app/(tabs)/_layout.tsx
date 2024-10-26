@@ -5,15 +5,16 @@ export default function TabLayout() {
   return (
     <Tabs
         screenOptions={{
-            tabBarActiveTintColor: '#ffd33d',
-            headerStyle: {
-              backgroundColor: '#25292e',
-            },
-            headerShadowVisible: false,
-            headerTintColor: '#fff',
-            tabBarStyle: {
-              backgroundColor: '#25292e',
-            },
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: '#ffd33d',
+          headerStyle: {
+            backgroundColor: '#25292e',
+          },
+          headerShadowVisible: false,
+          headerTintColor: '#fff',
+          tabBarStyle: {
+            backgroundColor: '#25292e',
+          },
         }}
     >
 
@@ -25,6 +26,7 @@ export default function TabLayout() {
             <Feather name='home' color={color} size={24} />
           ),
           headerShown: false,
+      
         }}
       />
 

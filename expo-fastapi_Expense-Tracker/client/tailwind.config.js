@@ -6,7 +6,16 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#f8f8f8', 
+      },
+    },
+    fontFamily: {
+      rblack: ["Raleway-Black", "sans-serif"],
+      rbold: ["Raleway-Bold", "sans-serif"],
+      rregular: ["Raleway-Regular", "sans-serif"]
+    }
   },
   plugins: [],
 }
