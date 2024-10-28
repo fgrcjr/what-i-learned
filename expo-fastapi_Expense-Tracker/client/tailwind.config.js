@@ -14,7 +14,8 @@ module.exports = {
     fontFamily: {
       rblack: ["Raleway-Black", "sans-serif"],
       rbold: ["Raleway-Bold", "sans-serif"],
-      rregular: ["Raleway-Regular", "sans-serif"]
+      rregular: ["Raleway-Regular", "sans-serif"],
+      rsemibold: ["Raleway-SemiBold", "sans-serif"],
     }
   },
   plugins: [],
