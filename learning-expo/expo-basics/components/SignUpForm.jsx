@@ -1,22 +1,18 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import FormComtainer from './FormComtainer'
 
 const SignUpForm = () => {
   return (
-    <View style={styles.container}>
-        <Text style={styles.text}>Login</Text>
-    </View>
+    <FormComtainer>
+        <Text style={styles.text}>Sign Up</Text>
+    </FormComtainer>
   )
 }
 
 export default SignUpForm
 
 const styles = StyleSheet.create({
-    container: { 
-        justifyContent: 'center', 
-        alignItems: 'center',  
-        width: Dimensions.get('window').width 
-    },
     text: { 
         fontSize: 50,  
         fontWeight: 'bold' 
