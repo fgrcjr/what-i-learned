@@ -1,16 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Animated } from 'react-native'
 import React from 'react'
 
-const Header = ({leftHeading, rightHeading, subHeading}) => {
+const Header = ({leftHeading, rightHeading, subHeading, leftHeaderTranslateX = 0, rightHeaderTranslateY = 0, rightHeaderOpacity = 0 }) => {
   return (
     <>
         <View style = {styles.container}>
-            <Text style = {styles.heading}>
+            <Animated.Text style = {[ styles.heading, { transform: [{ translateX: leftHeaderTranslateX }]} ]}>
                 {leftHeading}
-            </Text>
-            <Text style = {styles.heading}>
+            </Animated.Text>
+            <Animated.Text style = {[ styles.heading, { opacity: rightHeaderOpacity, transform: [{ translateY: rightHeaderTranslateY }] } ]}>
                 {rightHeading}
-            </Text>
+            </Animated.Text>
         </View>
         <Text style = {styles.subheading}>{subHeading}</Text>
     </>
