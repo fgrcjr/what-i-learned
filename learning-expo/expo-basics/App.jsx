@@ -16,7 +16,7 @@ export default function App() {
             subHeading = 'Random Tester'
           />
         </View>
-        <View style = {{ flexDirection: 'row', paddingHorizontal: 20}}>
+        <View style = {{ flexDirection: 'row', paddingHorizontal: 20, marginBottom: 20}}>
           {/* Login */}
           <FormSelect 
             style={styles.borderLeft} 
