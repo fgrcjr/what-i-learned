@@ -7,3 +7,4 @@ managed_context
 test_suite_analysis
 *.db
 pyvenv.cfg
+database.py
