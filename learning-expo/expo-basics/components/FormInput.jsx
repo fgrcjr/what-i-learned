@@ -1,11 +1,18 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 
-const FormInput = ({ title, placeholder }) => {
+const FormInput = (props) => {
+
+  const { title, placeholder } = props
+
   return (
     <>
       <Text style={{ fontWeight: 'bold' }}>{ title }</Text>
-      <TextInput placeholder={ placeholder } style={styles.text}></TextInput>
+      <TextInput
+        {...props}
+        placeholder={ placeholder }
+        style={styles.text}>
+      </TextInput>
     </>
   )
 }
